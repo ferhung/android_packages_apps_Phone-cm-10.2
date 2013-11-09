@@ -55,7 +55,7 @@ import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneConstants;
 
 import java.util.List;
-
+import com.android.phone.location.PhoneLocation;
 
 /**
  * "Call card" UI element: the in-call screen contains a tiled layout of call
@@ -133,6 +133,7 @@ public class CallCard extends LinearLayout
     private TextView mPhoneNumber;
     private TextView mLabel;
     private TextView mCallTypeLabel;
+    private TextView mCity;
     // private TextView mSocialStatus;
 
     /**
@@ -270,6 +271,7 @@ public class CallCard extends LinearLayout
         mName = (TextView) findViewById(R.id.name);
         mPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
         mLabel = (TextView) findViewById(R.id.label);
+	mCity = (TextView) findViewById(R.id.city);
         mCallTypeLabel = (TextView) findViewById(R.id.callTypeLabel);
         // mSocialStatus = (TextView) findViewById(R.id.socialStatus);
 
@@ -708,6 +710,7 @@ public class CallCard extends LinearLayout
             mPhoneNumber.setTextColor(getResources().getColor(mIncomingCallWidgetHintColorResId));
             mPhoneNumber.setVisibility(View.VISIBLE);
             mLabel.setVisibility(View.GONE);
+	    mCity.setVisibility(View.GONE);
         }
         // If we don't have a hint to display, just don't touch
         // mPhoneNumber and mLabel. (Their text / color / visibility have
@@ -1515,6 +1518,12 @@ public class CallCard extends LinearLayout
                     // Promote the phone number up to the "name" slot:
                     displayName = number;
 
+                    String city=PhoneLocation.getCityFromPhone(number);
+                    if(city!=null){
+                      mCity.setText(city);
+                      mCity.setVisibility(View.VISIBLE);
+                    }
+
                     // ...and use the "number" slot for a geographical description
                     // string if available (but only for incoming calls.)
                     if ((conn != null) && (conn.isIncoming())) {
@@ -1694,6 +1703,7 @@ public class CallCard extends LinearLayout
         // But for now, just hide it:
         mPhoneNumber.setVisibility(View.GONE);
         mLabel.setVisibility(View.GONE);
+	mCity.setVisibility(View.GONE);
 
         // Other text fields:
         updateCallTypeLabel(call);
