@@ -1,0 +1,17 @@
+# Keep names that are used only by animation framework.
+-keepclasseswithmembers class com.android.phone.AnimationUtils$CrossFadeDrawable {
+  *** setCrossFadeAlpha(...);
+}
+
+-keep public class com.android.phone.MediaHandler
+-keep public class com.android.phone.ImsCamera
+
+-keepclasseswithmembers class * {
+    native <methods>;
+}
+
+-keep class com.android.phone.MediaHandler {
+    *** onMediaEvent(...);
+}
+
+-verbose
